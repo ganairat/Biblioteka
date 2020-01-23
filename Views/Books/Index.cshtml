@@ -1,0 +1,66 @@
+﻿@model IEnumerable<TestUser.Models.Book>
+
+<h2>Список книг</h2>
+
+<p>
+    <a asp-action="Create">Добавить книгу</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <h4>Название</h4>
+            </th>
+            <th>
+                <h4>Автор</h4>
+            </th>
+            <th>
+                <h4>Жанр</h4>
+            </th>
+            <th>
+                <h4>Состояние</h4>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr>
+            <td>
+       
+                <a asp-controller="UserBooks" asp-action="DetailsByBookId" asp-route-bookId="@item.Id">@Html.DisplayFor(modelItem => item.Name)</a>
+            </td>
+            <td>
+                <a asp-action="ShowByAuthor" asp-route-author="@item.Author">@Html.DisplayFor(modelItem => item.Author)</a>
+            </td>
+            <td>
+                <a asp-action="ShowByGenre" asp-route-genre="@item.Genre"> @Html.DisplayFor(modelItem => item.Genre)</a>
+            </td>
+            <td>
+                @if (item.IsTaken)
+                {
+                     <a asp-action="ShowByTaked" asp-route-taked="@item.IsTaken"><h5>У клиента</h5></a>}
+                else
+                { <a asp-action="ShowByTaked" asp-route-taked="@item.IsTaken"><h5>В наличии</h5></a>}
+</td>
+            <td>
+                @if (!item.IsTaken)
+                {<a asp-controller="UserBooks" asp-action="TakeBook" asp-route-id="@item.Id">Взять книгу</a>}
+                else
+                {
+                    if (item.UserBooks.Count>0)
+                    {
+                        if ((item.UserBooks.Last().UserId) == ViewBag.User.Id)
+                        {
+                    <a asp-controller="UserBooks" asp-action="ReturnBook" asp-route-id="@item.Id">Вернуть книгу</a>}
+                    }
+                }
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a>
+            </td>
+        </tr>
+}
+</tbody>
+</table>

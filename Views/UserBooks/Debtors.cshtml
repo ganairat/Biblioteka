@@ -1,0 +1,30 @@
+﻿@model IEnumerable<TestUser.Models.UserBook>
+
+@{
+    ViewData["Title"] = "Debtors";
+}
+
+<h2>Debtors</h2>
+
+<p>
+    <a asp-action="Back">Back</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in (List<string>)ViewBag.Users) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item)
+            </td>
+
+        </tr>
+}
+    </tbody>
+</table>
